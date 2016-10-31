@@ -1,0 +1,30 @@
+{
+  "name": "eventsourced-object",
+  "version": "1.0.0",
+  "description": "A minimal eventsourcing helper for objects and classes",
+  "keywords": [
+    "eventsourcing",
+    "event",
+    "source",
+    "aggregate",
+    "ddd",
+    "cqrs"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && node test.js"
+  },
+  "author": "Marc Bachmann <marc.brookman@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^8.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcbachmann/eventsourced-object.git"
+  },
+  "bugs": {
+    "url": "https://github.com/marcbachmann/eventsourced-object/issues"
+  },
+  "homepage": "https://github.com/marcbachmann/eventsourced-object#readme"
+}
