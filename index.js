@@ -14,7 +14,7 @@ function setup (obj, reducer, events) {
 }
 
 function event (obj, reducer, event) {
-  obj[queued].push(event)
+  obj[queued][obj[queued].length] = event
   reducer.call(obj, event)
   return obj
 }

@@ -119,6 +119,26 @@ User.prototype.reducer = function (evt) {
 }
 ```
 
+# Benchmarks
+
+Here are some benchmarks with 10'000'000 iterations per function
+```
+NANOBENCH version 1
+
+# raw object creation (for comparison)
+  end ~86 ms (0 s + 86369896 ns)
+# .setup(obj)
+  end ~213 ms (0 s + 212897530 ns)
+# .event(obj, reducer, event)
+  end ~623 ms (0 s + 623003102 ns)
+# .isDirty(obj)
+  end ~87 ms (0 s + 87105882 ns)
+
+# total ~1.01 s (1 s + 9376410 ns)
+
+# ok
+```
+
 # Event Sourcing
 
 ## Videos
