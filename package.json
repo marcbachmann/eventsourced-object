@@ -1,6 +1,6 @@
 {
   "name": "eventsourced-object",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A minimal eventsourcing helper for objects and classes",
   "keywords": [
     "eventsourcing",
