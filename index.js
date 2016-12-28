@@ -8,15 +8,22 @@ module.exports = {
 }
 
 function setup (obj, reducer, events) {
-  obj[queued] = []
-  if (events) for (var i = 0; i < events.length; i++) reducer.call(obj, events[i])
-  return obj
+  drain(obj)
+  if (!reducer || !events || !events.length) return obj
+  var r
+  var i = 0
+  var state = obj
+  while (events[i]) {
+    r = reducer(state, events[i++])
+    state = r === undefined ? state : r
+  }
+  return state
 }
 
 function event (obj, reducer, event) {
   obj[queued][obj[queued].length] = event
-  reducer.call(obj, event)
-  return obj
+  var r = reducer(obj, event)
+  return r === undefined ? obj : r
 }
 
 function drain (obj) {
