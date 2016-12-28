@@ -1,4 +1,9 @@
-var queued = Symbol('queued')
+var queued = '__eventsourced_object'
+var supportsSymbol = false
+try {
+  queued = Symbol(queued)
+  supportsSymbol = true
+} catch (err) {}
 
 module.exports = {
   setup: setup,
@@ -28,7 +33,8 @@ function event (obj, reducer, event) {
 
 function drain (obj) {
   var arr = obj[queued]
-  obj[queued] = []
+  if (supportsSymbol) obj[queued] = []
+  else Object.defineProperty(obj, queued, {enumerable: false, value: [], configurable: true})
   return arr
 }
 
