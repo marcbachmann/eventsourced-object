@@ -13,26 +13,27 @@ var Aggregate = require('eventsourced-object')
 ### Aggregate.setup(obj, reducer, events)
 
 ```js
-var obj = {version: 0}
-var reducer = function (evt) {
-    this.version += 1
-    if (evt.name == 'CreateUser') this.name = evt.fullName
+var user = {version: 0}
+var initialEvents = [{name: 'CreateUser', fullName: 'Marc Bachmann'}]
+Aggregate.setup(user, reducer, initialEvents)
+
+function reducer (state, evt) {
+    state.version += 1
+    if (evt.name == 'CreateUser') state.name = evt.fullName
 }
-Aggregate.setup(obj)
 ```
 
 ### Aggregate.event(obj, reducer, event)
 
 ```js
-var obj = {version: 0}
-var reducer = function (evt) {
-    this.version += 1
-    if (evt.name == 'CreateUser') this.name = evt.fullName
-}
-Aggregate.setup(obj)
+var user = Aggregate.setup({version: 0})
 var event = {name: 'CreateUser', fullName: 'Marc Bachmann'}
-Aggregate.event(obj, reducer, event)
+Aggregate.event(user, reducer, event)
 // executes the reducer with the event and queues the event so you can save it
+function reducer (state, evt) {
+    state.version += 1
+    if (evt.name == 'CreateUser') state.name = evt.fullName
+}
 ```
 
 ### Aggregate.drain(obj)
@@ -69,12 +70,12 @@ user.rename('Example')
 
 function User (events) {
   this.version = 0
-  Aggregate.setup(this, this.reducer, events)
+  Aggregate.setup(this, reducer, events)
 }
 
 User.create = function (params) {
   var user = new User()
-  return Aggregate.event(user, user.reducer, {
+  return Aggregate.event(user, reducer, {
     aggregateId: params.id || Date.now().toString(36),
     name: 'UserCreated',
     time: new Date(),
@@ -86,7 +87,7 @@ User.create = function (params) {
 }
 
 User.prototype.rename = function (fullName) {
-  return Aggregate.event(this, this.reducer, {
+  return Aggregate.event(this, reducer, {
     aggregateId: this.id,
     name: 'UserRenamed',
     time: new Date(),
@@ -105,16 +106,16 @@ User.prototype.isDirty = function () {
   return Aggregate.isDirty(this)
 }
 
-User.prototype.reducer = function (evt) {
-  this.version += 1
-  this.updatedAt = evt.time
+function reducer (state, evt) {
+  state.version += 1
+  state.updatedAt = evt.time
   if (evt.name === 'UserCreated') {
-    this.id = evt.aggregateId
-    this.createdAt = evt.time
-    this.fullName = evt.data.fullName
-    this.email = evt.data.email
+    state.id = evt.aggregateId
+    state.createdAt = evt.time
+    state.fullName = evt.data.fullName
+    state.email = evt.data.email
   } else if (evt.name === 'UserRenamed') {
-    this.fullName = evt.data.fullName
+    state.fullName = evt.data.fullName
   }
 }
 ```
@@ -126,17 +127,19 @@ Here are some benchmarks with 10'000'000 iterations per function
 NANOBENCH version 1
 
 # raw object creation (for comparison)
-  end ~86 ms (0 s + 86369896 ns)
+  end ~97 ms (0 s + 97465524 ns)
 # .setup(obj)
-  end ~213 ms (0 s + 212897530 ns)
+  end ~228 ms (0 s + 227954858 ns)
 # .event(obj, reducer, event)
-  end ~623 ms (0 s + 623003102 ns)
+  end ~473 ms (0 s + 473181583 ns)
 # .isDirty(obj)
-  end ~87 ms (0 s + 87105882 ns)
+  end ~86 ms (0 s + 86072337 ns)
 
-# total ~1.01 s (1 s + 9376410 ns)
+# total ~885 ms (0 s + 884674302 ns)
 
 # ok
+
+[Finished in 1.0s]
 ```
 
 # Event Sourcing

@@ -17,7 +17,7 @@ assert.equal(evts[0], evt)
 //
 // Test reducer, this binding
 //
-var reducer = function (evt) { this.calls += 1 }
+var reducer = function (s, evt) { s.calls += 1 }
 var obj = {calls: 0, args: []}
 Aggregate.setup(obj, reducer)
 assert.equal(Object.keys(obj).length, 2)
@@ -47,11 +47,11 @@ assert.equal(events2[2], undefined)
 var foo = {}
 var event = {foo: 'bar'}
 var called = 0
-var reducer2 = function (evt) {
+function reducer2 (s, evt) {
   called += 1
-  assert.equal(arguments.length, 1)
+  assert.equal(arguments.length, 2)
   assert.equal(evt, event)
-  assert.equal(this, foo)
+  assert.equal(s, foo)
 }
 Aggregate.setup(foo)
 Aggregate.event(foo, reducer2, event)
