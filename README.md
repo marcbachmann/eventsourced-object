@@ -1,5 +1,7 @@
 # eventsourced-object
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/marcbachmann/eventsourced-object.svg)](https://greenkeeper.io/)
+
 A minimal eventsourcing helper for objects and classes.  
 In case you don't know eventsourcing, [here's some reading material](#event-sourcing)
 
