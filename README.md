@@ -1,6 +1,7 @@
 # eventsourced-object
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/marcbachmann/eventsourced-object.svg)](https://greenkeeper.io/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmarcbachmann%2Feventsourced-object.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmarcbachmann%2Feventsourced-object?ref=badge_shield)
 
 A minimal eventsourcing helper for objects and classes.  
 In case you don't know eventsourcing, [here's some reading material](#event-sourcing)
@@ -167,3 +168,7 @@ NANOBENCH version 1
 - https://groups.google.com/forum/#!forum/dddcqrs
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmarcbachmann%2Feventsourced-object.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmarcbachmann%2Feventsourced-object?ref=badge_large)
